@@ -32,10 +32,10 @@ try {
     '--package-lock=false', join(temporary, packed[0].filename)], {
     cwd: temporary, stdio: 'inherit',
   });
-  const installed = JSON.parse(readFileSync(
-    join(temporary, 'node_modules/blens/package.json'), 'utf8'));
   const source = JSON.parse(readFileSync(join(packageDir, 'package.json'), 'utf8'));
-  assert.equal(installed.name, 'blens');
+  const installed = JSON.parse(readFileSync(
+    join(temporary, 'node_modules', source.name, 'package.json'), 'utf8'));
+  assert.equal(installed.name, source.name);
   assert.equal(installed.version, source.version);
 
   copyFileSync(join(packageDir, 'test/platform/node.mjs'), join(temporary, 'package.test.mjs'));

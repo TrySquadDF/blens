@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { strict as assert } from 'node:assert';
-import { struct, u8, u16, u32, data, magic } from 'blens';
+import { struct, u8, u16, u32, data, magic } from '@trysquaddf/blens';
 import { bench, finish } from './harness';
 
 const sum16 = (bytes: Uint8Array): number => {

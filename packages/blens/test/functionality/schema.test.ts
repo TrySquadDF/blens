@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { data, skip, struct, u16, u32, u8 } from 'blens';
+import { data, skip, struct, u16, u32, u8 } from '@trysquaddf/blens';
 
 const sumWithoutLast = (buffer: Uint8Array) => {
   let sum = 0;
@@ -178,8 +178,8 @@ describe('schema invariants', () => {
 });
 
 it('validates actual names in dynamically assembled blocks', () => {
-  const head: import('blens').LayoutEntry[] = [['a', u8]];
-  const tail: import('blens').LayoutEntry[] = [['b', u8]];
+  const head: import('@trysquaddf/blens').LayoutEntry[] = [['a', u8]];
+  const tail: import('@trysquaddf/blens').LayoutEntry[] = [['b', u8]];
   expect([...struct({ size: 2, head, tail }).encode({ head: { a: 1 }, tail: { b: 2 } })]).toEqual([1, 2]);
   tail[0] = ['a', u8];
   expect(() => struct({ size: 2, head, tail })).toThrow(/Duplicate field name "a"/);

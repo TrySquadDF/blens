@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { data, struct, u16, u32, u8 } from 'blens';
-import type { TypeDef } from 'blens';
+import { data, struct, u16, u32, u8 } from '@trysquaddf/blens';
+import type { TypeDef } from '@trysquaddf/blens';
 
 // Fixed seeds keep randomized offset and boundary checks reproducible.
 const mulberry32 = (seed: number) => () => {

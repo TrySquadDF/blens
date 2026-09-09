@@ -7,10 +7,12 @@
 blens is a small TypeScript library for describing fixed-size binary
 structures and converting them to and from `Uint8Array`.
 
+Install the package with `npm install @trysquaddf/blens`.
+
 Define a schema once, then use it to encode and decode messages:
 
 ```ts
-import * as b from 'blens';
+import * as b from '@trysquaddf/blens';
 
 const Message = b.struct({
   size: 9,

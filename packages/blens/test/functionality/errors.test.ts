@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { PacketValidationError, data, magic, struct, u16, u8 } from 'blens';
+import { PacketValidationError, data, magic, struct, u16, u8 } from '@trysquaddf/blens';
 
 describe('error contract', () => {
   it('returns PacketValidationError from safeEncode for invalid payload size', () => {

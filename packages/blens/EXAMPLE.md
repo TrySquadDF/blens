@@ -1,5 +1,5 @@
 ```ts
-import * as b from "blens";
+import * as b from "@trysquaddf/blens";
 
 // Transport metadata stays outside the packet schema.
 const CHANNEL_ID = 0x08;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { struct, u8, u16, u32 } from 'blens';
+import { struct, u8, u16, u32 } from '@trysquaddf/blens';
 
 // Fixed byte fixtures catch matching byte-order mistakes in encode and decode.
 const cases = [

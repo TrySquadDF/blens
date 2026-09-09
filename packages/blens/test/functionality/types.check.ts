@@ -1,6 +1,6 @@
 /** Compile-time assertions and expected errors. This file is not executed by the test runner. */
-import { struct, u8, u16, u32, data, magic, skip } from 'blens';
-import type { FieldDef, InferInput, InferOutput, PacketCodec } from 'blens';
+import { struct, u8, u16, u32, data, magic, skip } from '@trysquaddf/blens';
+import type { FieldDef, InferInput, InferOutput, PacketCodec } from '@trysquaddf/blens';
 
 type Equal<A, B> = (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2)
   ? true
@@ -31,7 +31,7 @@ type _codecIsExplicit = Expect<Equal<typeof Packet, PacketCodec<Input, Output, t
 type Decoded = Output;
 
 type _headIsTyped = Expect<Equal<Decoded['head'], { cmd: number; value: number }>>;
-type _bodyIsEmpty = Expect<Equal<Decoded['body'], import('blens').EmptyPayload>>;
+type _bodyIsEmpty = Expect<Equal<Decoded['body'], import('@trysquaddf/blens').EmptyPayload>>;
 type _tailIsTyped = Expect<Equal<Decoded['tail'], { seq: number; crc: number }>>;
 
 const _inferredInputWorks = (input: Input) => Packet.encode(input);
@@ -230,8 +230,8 @@ const _runtimeChoiceDoesNotMakeBothFieldsOptional = (chooseA: boolean) => {
 };
 
 const _dynamicLayoutsUseRuntimeDuplicateChecks = () => {
-  const head: import('blens').LayoutEntry[] = [['a', u8]];
-  const tail: import('blens').LayoutEntry[] = [['b', u8]];
+  const head: import('@trysquaddf/blens').LayoutEntry[] = [['a', u8]];
+  const tail: import('@trysquaddf/blens').LayoutEntry[] = [['b', u8]];
   // Both arrays may contain any name; that alone is not proof of a duplicate.
   const P = struct({ size: 2, head, tail });
   P.encode({ head: { a: 1 }, tail: { b: 2 } });
@@ -253,8 +253,8 @@ const _bodyMustMatchSchema = () => {
   WithBody.encode({ body: new Uint8Array([9]) });
 };
 
-type BodyVariant = { size: number; body: import('blens').DataFieldFactory };
-type ReservedVariant = { size: number; head: readonly [import('blens').SkipEntry] };
+type BodyVariant = { size: number; body: import('@trysquaddf/blens').DataFieldFactory };
+type ReservedVariant = { size: number; head: readonly [import('@trysquaddf/blens').SkipEntry] };
 
 const _bodyAcrossSchemaVariants = (schema: BodyVariant | ReservedVariant) => {
   const P = struct(schema);
@@ -272,15 +272,15 @@ const _bodyAcrossSchemaVariants = (schema: BodyVariant | ReservedVariant) => {
   }
 };
 
-const _bodyAbsentAcrossAllVariants = (schema: ReservedVariant | { size: number; tail: readonly [import('blens').SkipEntry] }) => {
+const _bodyAbsentAcrossAllVariants = (schema: ReservedVariant | { size: number; tail: readonly [import('@trysquaddf/blens').SkipEntry] }) => {
   const P = struct(schema);
-  type _bodyIsEmpty = Expect<Equal<ReturnType<typeof P.decode>['body'], import('blens').EmptyPayload>>;
+  type _bodyIsEmpty = Expect<Equal<ReturnType<typeof P.decode>['body'], import('@trysquaddf/blens').EmptyPayload>>;
   // @ts-expect-error No variant accepts nonempty payload bytes.
   P.encode({ body: new Uint8Array([7]) });
   P.encode(P.decode(new Uint8Array([7])));
 };
 
-const _optionalBodyAcrossVariants = (schema: { size: number; body?: import('blens').DataFieldFactory } | ReservedVariant) => {
+const _optionalBodyAcrossVariants = (schema: { size: number; body?: import('@trysquaddf/blens').DataFieldFactory } | ReservedVariant) => {
   const P = struct(schema);
   type _possibleBodyIsBytes = Expect<Equal<ReturnType<typeof P.decode>['body'], Uint8Array>>;
   P.encode({ body: new Uint8Array([7]) });

@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { runInNewContext } from 'node:vm';
-import { struct, data, u8, u32, PacketValidationError } from 'blens';
+import { struct, data, u8, u32, PacketValidationError } from '@trysquaddf/blens';
 
 const Packet = struct({
   size: 8, head: [['length', u8]],

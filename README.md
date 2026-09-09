@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/blens"><img src="https://img.shields.io/npm/v/blens?style=flat-square" alt="Latest npm version" /></a>
+  <a href="https://www.npmjs.com/package/@trysquaddf/blens"><img src="https://img.shields.io/npm/v/@trysquaddf/blens?style=flat-square" alt="Latest npm version" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/github/license/TrySquadDF/blens?style=flat-square" alt="License" /></a>
   <a href="https://github.com/TrySquadDF/blens/actions/workflows/ci.yml"><img src="https://github.com/TrySquadDF/blens/actions/workflows/ci.yml/badge.svg" alt="CI: types, tests and package checks" /></a>
 </p>
@@ -46,14 +46,16 @@ offsets, payload lengths and checksums handled by the library.
 
 ## Installation
 
+The npm package is published as `@trysquaddf/blens`.
+
 ```sh
-npm install blens
+npm install @trysquaddf/blens
 ```
 
 Or with Bun:
 
 ```sh
-bun add blens
+bun add @trysquaddf/blens
 ```
 
 ## Quick start
@@ -61,7 +63,7 @@ bun add blens
 Describe a four-byte message: a constant marker, a command and a 16-bit value.
 
 ```ts
-import * as b from 'blens';
+import * as b from '@trysquaddf/blens';
 
 const Message = b.struct({
   size: 4,

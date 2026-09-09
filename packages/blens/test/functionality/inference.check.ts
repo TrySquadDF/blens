@@ -1,8 +1,8 @@
 // Compile-time regressions for public inference helpers and codec input constraints.
-import { data, struct, u8 } from 'blens';
+import { data, struct, u8 } from '@trysquaddf/blens';
 import type {
   EmptyPayload, InferInput, InferOutput, PacketCodec, TypeDef,
-} from 'blens';
+} from '@trysquaddf/blens';
 
 type Equal<A, B> = (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2)
   ? true : false;

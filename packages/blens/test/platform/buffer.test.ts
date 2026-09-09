@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { describe, expect, it } from 'bun:test';
-import { data, struct, u8, u16, u32 } from 'blens';
+import { data, struct, u8, u16, u32 } from '@trysquaddf/blens';
 
 // Views deliberately have a nonzero byteOffset and bytes outside the packet.
 // Expected wire bytes are fixtures, not the output of the encoder under test.

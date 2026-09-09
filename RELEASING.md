@@ -6,6 +6,9 @@ merged into `main`. Infrastructure-only changes do not need a changeset.
 
 ## One-time setup
 
+The npm package is `@trysquaddf/blens`; the project and GitHub repository remain
+`blens`. npm rejected the unscoped name as too similar to an existing package.
+
 The GitHub repository is `https://github.com/TrySquadDF/blens`.
 The npm package metadata and trusted publisher settings below use this address.
 Create the repository under the `TrySquadDF` account and use
@@ -14,7 +17,7 @@ Create the repository under the `TrySquadDF` account and use
 1. Commit and push the project, including `.github`, `.changeset`, the package,
    and `bun.lock` to GitHub. In **Settings → Actions → General**, enable
    **Allow GitHub Actions to create and approve pull requests**.
-2. If `blens` has never been published, create a short-lived granular npm access
+2. If `@trysquaddf/blens` has never been published, create a short-lived granular npm access
    token authorized to publish the new package, with **Bypass 2FA** enabled for
    noninteractive publication. Save it as the GitHub Actions secret
    `NPM_BOOTSTRAP_TOKEN`. Run **Actions → Release → Run workflow**, select `main`,
@@ -22,7 +25,7 @@ Create the repository under the `TrySquadDF` account and use
    publishes the current version, initially `0.1.0`, and creates a GitHub release.
    If there are pending changesets, merge the generated release PR and run the
    bootstrap again. The name must be available or owned by your npm account.
-3. In npm, open **blens → Settings → Trusted publishing** and add GitHub Actions:
+3. In npm, open **@trysquaddf/blens → Settings → Trusted publishing** and add GitHub Actions:
 
    | Field | Value |
    | --- | --- |
@@ -48,7 +51,7 @@ Nothing is published by the CI workflow or by local verification commands.
 ## Regular releases
 
 1. Make the code change and run `bun run changeset` from the repository root.
-2. Select `blens`, choose `patch`, `minor`, or `major`, and write a short note
+2. Select `@trysquaddf/blens`, choose `patch`, `minor`, or `major`, and write a short note
    describing the change for package users. Commit the generated file with the
    code. For this pre-1.0 library, use a minor bump for breaking changes and
    describe the migration in the note; choose a major bump when ready for 1.0.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { u8, data } from 'blens';
+import { u8, data } from '@trysquaddf/blens';
 
 describe('data() field', () => {
   describe('core factory', () => {

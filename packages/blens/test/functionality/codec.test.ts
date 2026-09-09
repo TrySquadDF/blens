@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { data, skip, struct, u16, u32, u8 } from 'blens';
+import { data, skip, struct, u16, u32, u8 } from '@trysquaddf/blens';
 
 const bytes = (buffer: Uint8Array) => Array.from(buffer);
 

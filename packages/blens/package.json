@@ -1,5 +1,5 @@
 {
-  "name": "blens",
+  "name": "@trysquaddf/blens",
   "version": "0.1.0",
   "description": "Typed codecs for fixed-size binary packets with automatic lengths and checksums.",
   "license": "MIT",
