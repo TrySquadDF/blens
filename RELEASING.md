@@ -38,9 +38,12 @@ Create the repository under the `TrySquadDF` account and use
    If the package already exists, skip the bootstrap and configure the trusted
    publisher directly.
 
-An automatic Release run before these npm settings are configured may fail at
-publication; configure publishing and rerun it. Nothing is published by the CI
-workflow or by this setup process on your computer.
+Before the package exists on npm, automatic Release runs still execute CI but
+skip release PR creation and publication, with setup instructions in the run
+summary. Start the first publication with the manual bootstrap run above.
+Once the package exists, automatic releases use Trusted Publishing. Registry
+outages and authentication failures for an existing package remain errors.
+Nothing is published by the CI workflow or by local verification commands.
 
 ## Regular releases
 

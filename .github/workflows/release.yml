@@ -56,7 +56,41 @@ jobs:
             echo '::error::Add the NPM_BOOTSTRAP_TOKEN secret before the first publication.'
             exit 1
           fi
+      - name: Check whether npm bootstrap is required
+        id: npm
+        if: ${{ !inputs.bootstrap }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { appendFileSync, readFileSync } from 'node:fs';
+
+          const { name } = JSON.parse(readFileSync('packages/blens/package.json', 'utf8'));
+          const response = await fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`, {
+            signal: AbortSignal.timeout(15000),
+          });
+          if (response.status !== 200 && response.status !== 404) {
+            throw new Error(`npm registry returned HTTP ${response.status}; refusing to skip publication.`);
+          }
+          const ready = response.status === 200;
+          appendFileSync(process.env.GITHUB_OUTPUT, `ready=${ready}\n`);
+          if (!ready) {
+            console.log('::notice::First npm publication requires setup. CI passed; publication was skipped. See the run summary.');
+            appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+              '## First npm publication needs setup',
+              '',
+              `The package \`${name}\` does not exist on npm yet. CI passed; nothing was published.`,
+              '',
+              '1. Add a temporary npm publish token as the repository secret `NPM_BOOTSTRAP_TOKEN`.',
+              '2. Run **Release** manually on **main** and enable **First npm publication only**.',
+              '3. After publication, configure npm Trusted Publishing for this repository and `release.yml`.',
+              '4. Revoke the temporary token and delete the bootstrap secret.',
+              '',
+              'See RELEASING.md for the full setup instructions.',
+              '',
+            ].join('\n'));
+          }
+          NODE
       - name: Create release PR or publish to npm
+        if: inputs.bootstrap || steps.npm.outputs.ready == 'true'
         uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2
         with:
           version-script: bun run version-packages
