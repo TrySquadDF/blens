@@ -1,0 +1,54 @@
+{
+  "name": "blens",
+  "version": "0.1.0",
+  "description": "Typed codecs for fixed-size binary packets with automatic lengths and checksums.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "EXAMPLE.md",
+    "TESTING.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "prepack": "bun run check",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "bun test test/functionality test/platform",
+    "test:functionality": "bun test test/functionality",
+    "test:platform": "bun test test/platform",
+    "test:watch": "bun test test/functionality test/platform --watch",
+    "test:coverage": "bun test test/functionality test/platform --coverage",
+    "test:node": "node --test test/platform/node.mjs",
+    "check": "bun run typecheck && bun run test && bun run build && bun run test:node",
+    "bench": "bun bench/codec.bench.ts",
+    "bench:node": "bun build bench/codec.bench.ts --target=node --outfile=.cache/blens-bench.mjs && node .cache/blens-bench.mjs"
+  },
+  "devDependencies": {
+    "tsdown": "0.23.0",
+    "typescript": "catalog:",
+    "@types/bun": "catalog:"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TrySquadDF/blens.git",
+    "directory": "packages/blens"
+  },
+  "homepage": "https://github.com/TrySquadDF/blens/tree/main/packages/blens#readme",
+  "bugs": {
+    "url": "https://github.com/TrySquadDF/blens/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

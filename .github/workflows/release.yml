@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      bootstrap:
+        description: 'First npm publication only: use NPM_BOOTSTRAP_TOKEN'
+        type: boolean
+        default: false
+
+permissions: {}
+
+# A newer commit must not cancel a publication already in progress.
+concurrency:
+  group: release-main
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+      - name: Install npm with Trusted Publishing support
+        run: npm install --global npm@11
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Validate first-publication credentials
+        if: inputs.bootstrap
+        env:
+          BOOTSTRAP_TOKEN: ${{ secrets.NPM_BOOTSTRAP_TOKEN }}
+        run: |
+          if [ -z "$BOOTSTRAP_TOKEN" ]; then
+            echo '::error::Add the NPM_BOOTSTRAP_TOKEN secret before the first publication.'
+            exit 1
+          fi
+      - name: Create release PR or publish to npm
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2
+        with:
+          version-script: bun run version-packages
+          publish-script: bun run release
+          commit-message: 'chore: release blens'
+          pr-title: 'chore: release blens'
+          create-github-releases: true
+        env:
+          # Regular runs use OIDC. A token is exposed only for an explicit bootstrap run.
+          NODE_AUTH_TOKEN: ${{ inputs.bootstrap && secrets.NPM_BOOTSTRAP_TOKEN || '' }}

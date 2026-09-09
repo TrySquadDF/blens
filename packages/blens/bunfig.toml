@@ -1,0 +1,13 @@
+[test]
+# Tests are grouped by scope: `test/functionality` and `test/platform`.
+# Coverage: `bun run test:coverage`.
+coverageReporter = ["text", "lcov"]
+coverageDir = "coverage"
+# Skip tests themselves; only measure src (and never dist / node_modules).
+coverageSkipTestFiles = true
+coveragePathIgnorePatterns = [
+  "dist/**",
+  "node_modules/**",
+  "test/**",
+  "**/*.test.ts",
+]
